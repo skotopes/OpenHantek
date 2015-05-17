@@ -27,6 +27,8 @@
 #define DSOCONTROL_H
 
 
+#include <vector>
+
 #include <QStringList>
 #include <QThread>
 
@@ -55,7 +57,6 @@ class DsoControl : public QThread {
 	
 	protected:
 		bool sampling; ///< true, if the oscilloscope is taking samples
-		bool terminate; ///< true, if the thread should be terminated
 		
 		QStringList specialTriggerSources; ///< Names of the special trigger sources
 		
@@ -65,13 +66,13 @@ class DsoControl : public QThread {
 		void samplingStarted(); ///< The oscilloscope started sampling/waiting for trigger
 		void samplingStopped(); ///< The oscilloscope stopped sampling/waiting for trigger
 		void statusMessage(const QString &message, int timeout); ///< Status message about the oscilloscope
-		void samplesAvailable(const QList<double *> *data, const QList<unsigned int> *size, double samplerate, QMutex *mutex); ///< New sample data is available
+		void samplesAvailable(const std::vector<std::vector<double> > *data, double samplerate, bool append, QMutex *mutex); ///< New sample data is available
 		
+		void availableRecordLengthsChanged(const QList<unsigned int> &recordLengths); ///< The available record lengths, empty list for continuous
+		void samplerateLimitsChanged(double minimum, double maximum); ///< The minimum or maximum samplerate has changed
 		void recordLengthChanged(unsigned long duration); ///< The record length has changed
 		void recordTimeChanged(double duration); ///< The record time duration has changed
 		void samplerateChanged(double samplerate); ///< The samplerate has changed
-		void availableRecordLengthsChanged(const QList<unsigned int> &recordLengths); ///< The available record lengths, empty list for continuous
-		void samplerateLimitsChanged(double minimum, double maximum); ///< The minimum or maximum samplerate has changed
 	
 	public slots:
 		virtual void connectDevice();
