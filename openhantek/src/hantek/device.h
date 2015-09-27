@@ -35,7 +35,7 @@
 #define libusb_device_handle usb_device_handle
 #define libusb_device_descriptor usb_device_descriptor
 #else
-#include <libusb.h>
+#include <libusb-1.0/libusb.h>
 #endif
 
 

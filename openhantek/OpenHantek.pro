@@ -16,7 +16,7 @@ TEMPLATE = app
 CONFIG += \
 	warn_on \
 	qt
-QT += opengl
+QT += opengl printsupport
 LIBS += -lfftw3
 
 # Source files
@@ -158,6 +158,8 @@ macx {
 	DEFINES += \
 		QMAKE_TRANSLATIONS_PATH=\\\"Contents/Resources/translations\\\" \
 		OS_DARWIN VERSION=\\\"$${VERSION}\\\"
+        INCLUDEPATH += /usr/local/include
+        LIBS += -L/usr/local/lib
 }
 win32 { 
 	isEmpty(PREFIX): PREFIX = OpenHantek
